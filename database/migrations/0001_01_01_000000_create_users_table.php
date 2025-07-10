@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->enum('role', ['branch_officer', 'branch_credit_committee', 'credit_analyst', 'manager_credit_committee', 'head_credit_committee', 'board_credit_committee', 'full_board', 'regional_manager', 'admin'])->notNull();
-            $table->unsignedBigInteger('branch_id');
-            $table->unsignedBigInteger('region_id');
+            $table->unsignedBigInteger('branch_id')->nullable();
+            $table->unsignedBigInteger('region_id')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

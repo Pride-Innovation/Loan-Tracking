@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('branch_id')->constrained('branches');
-            $table->foreignId('region_id')->constrained('regions');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            // Only add foreign key constraints, not the columns
+            $table->foreign('branch_id')->references('id')->on('branches');
+            $table->foreign('region_id')->references('id')->on('regions');
         });
     }
 
@@ -24,6 +23,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['branch_id']);
+            $table->dropForeign(['region_id']);
+        });
     }
 };
