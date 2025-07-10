@@ -42,7 +42,7 @@ const logout = () => {
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationMark class="block h-9 w-auto" />
+                                    <ApplicationMark class="block h-12 w-auto" />
                                 </Link>
                             </div>
 
@@ -50,6 +50,19 @@ const logout = () => {
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
+                                </NavLink>
+                                <NavLink :href="route('leads')" :active="route().current('leads')">
+                                    Loan Leads
+                                </NavLink>
+                                <NavLink :href="route('leads.create')" :active="route().current('leads.create')">
+                                    Create Lead
+                                </NavLink>
+                                <NavLink :href="route('products')" :active="route().current('products')">
+                                    Products
+                                </NavLink>
+                             
+                                <NavLink :href="route('settings')" :active="route().current('settings')">
+                                    Settings
                                 </NavLink>
                             </div>
                         </div>
@@ -193,6 +206,9 @@ const logout = () => {
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('leads')" :active="route().current('leads')">
+                            Leads
                         </ResponsiveNavLink>
                     </div>
 
