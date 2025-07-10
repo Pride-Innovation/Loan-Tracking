@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class RegionsSeeder extends Seeder
 {
@@ -12,6 +13,11 @@ class RegionsSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        DB::table('regions')->insert([
+            ['name' => 'Central'],
+            ['name' => 'Western'],
+            ['name' => 'Northern'],
+            ['name' => 'Eastern'],
+        ]);
     }
 }

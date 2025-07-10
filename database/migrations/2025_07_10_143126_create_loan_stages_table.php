@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('loan_stages', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 255);
+            $table->string('slug', 100)->unique();
+            $table->string('display_name', 255);
+            $table->string('required_role', 100);
+            $table->integer('default_sla_hours')->default(72);
+            $table->boolean('can_approve')->default(true);
+            $table->boolean('can_reject')->default(true);
+            $table->boolean('can_defer')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

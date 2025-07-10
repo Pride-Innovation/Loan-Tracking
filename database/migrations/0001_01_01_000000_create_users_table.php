@@ -14,12 +14,16 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->enum('role', ['branch_officer', 'branch_credit_committee', 'credit_analyst', 'manager_credit_committee', 'head_credit_committee', 'board_credit_committee', 'full_board', 'regional_manager', 'admin'])->notNull();
+            $table->unsignedBigInteger('branch_id');
+            $table->unsignedBigInteger('region_id');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('approval_work_flows', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('loan_product_id');
+            $table->decimal('amount_min', 15, 2);
+            $table->decimal('amount_max', 15, 2);
+            $table->unsignedBigInteger('required_stage_id');
+            $table->integer('order_sequence');
             $table->timestamps();
             $table->softDeletes();
         });

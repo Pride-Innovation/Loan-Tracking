@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->unsignedBigInteger('region_id');
+            $table->decimal('approval_limit', 15, 2)->default(20000000); // 20M UGX default
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
