@@ -104,7 +104,7 @@ const bulkDeleteLeads = () => {
     <AppLayout title="Dashboard">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                Leads Dashboard
+                Add New Leads
             </h2>
         </template>
 
