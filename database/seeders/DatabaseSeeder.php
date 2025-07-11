@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->withPersonalTeam()->create();
 
         User::factory()->withPersonalTeam()->create([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@example.com',
+            'name' => 'Obwot Solomon',
+            'email' => 'sobwot@pridebank.co.ug',
             'password' => bcrypt('password'),
         ]);
     }
