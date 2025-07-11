@@ -11,7 +11,7 @@ class StoreLoanApplicationsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class StoreLoanApplicationsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'customer_name' => 'required|string|max:255',
+            'customer_reference' => 'required|string|max:100',
+            'amount' => 'required|numeric|min:1',
+            'branch_id' => 'required|exists:branches,id',
+            'region_id' => 'required|exists:regions,id',
+            'loan_product_id' => 'required|exists:loan_products,id',
+            'description' => 'nullable|string|max:1000',
+            'remarks' => 'nullable|string|max:1000',
         ];
     }
 }

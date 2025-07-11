@@ -11,7 +11,7 @@ class UpdateLoanApplicationsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,15 @@ class UpdateLoanApplicationsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'customer_name' => 'sometimes|required|string|max:255',
+            'customer_reference' => 'sometimes|required|string|max:100',
+            'amount' => 'sometimes|required|numeric|min:1',
+            'branch_id' => 'sometimes|required|exists:branches,id',
+            'region_id' => 'sometimes|required|exists:regions,id',
+            'loan_product_id' => 'sometimes|required|exists:loan_products,id',
+            'description' => 'nullable|string|max:1000',
+            'remarks' => 'nullable|string|max:1000',
+            'status' => 'sometimes|required|string|in:pending,active,completed,rejected',
         ];
     }
 }

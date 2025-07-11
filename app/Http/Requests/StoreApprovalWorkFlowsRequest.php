@@ -11,7 +11,7 @@ class StoreApprovalWorkFlowsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class StoreApprovalWorkFlowsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'loan_product_id' => 'required|exists:loan_products,id',
+            'stage_id' => 'required|exists:loan_stages,id',
+            'min_amount' => 'required|numeric|min:0',
+            'max_amount' => 'required|numeric|gt:min_amount',
+            'sequence' => 'required|integer|min:1',
+            'is_active' => 'boolean',
         ];
     }
 }
