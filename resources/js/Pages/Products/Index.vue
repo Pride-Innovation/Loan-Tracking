@@ -2,6 +2,11 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { ref, computed } from 'vue';
 import TableComponents from '@/Components/TableComponents.vue';
+import TableHead from '@/Components/Table/TableHead.vue';
+import TableHeader from '@/Components/Table/TableHeader.vue';
+import TableBody from '@/Components/Table/TableBody.vue';
+import TableRow from '@/Components/Table/TableRow.vue';
+import TableCell from '@/Components/Table/TableCell.vue';
 import Modal from '@/Components/Modal.vue';
 
 // Sample products data
@@ -98,10 +103,10 @@ const saveProduct = () => {
                         </div>
                     </div>
                     <!-- Table -->
-                    <TableComponents>
-                        <thead class="bg-[#08796c] text-white">
+                    <TableComponents :data="products">
+                        <TableHead>
                             <tr>
-                                <th class="border border-gray-300 py-3.5 px-4 text-sm font-semibold">
+                                <TableHeader>
                                     <div class="group grid size-4 grid-cols-1">
                                         <input 
                                             type="checkbox" 
@@ -115,46 +120,52 @@ const saveProduct = () => {
                                             <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                     </div>
-                                </th>
-                                <th class="border border-gray-300 py-3.5 px-4 text-sm font-semibold">Name</th>
-                                <th class="border border-gray-300 py-3.5 px-4 text-sm font-semibold">Type</th>
-                                <th class="border border-gray-300 py-3.5 px-4 text-sm font-semibold">Rate</th>
-                                <th class="border border-gray-300 py-3.5 px-4 text-sm font-semibold">Status</th>
-                                <th class="border border-gray-300 py-3.5 px-4 text-sm font-semibold">Actions</th>
+                                </TableHeader>
+                                <TableHeader>Name</TableHeader>
+                                <TableHeader>Type</TableHeader>
+                                <TableHeader>Rate</TableHeader>
+                                <TableHeader>Status</TableHeader>
+                                <TableHeader>Actions</TableHeader>
                             </tr>
-                        </thead>
-                        <tbody class="[&>*:nth-child(odd)]:bg-gray-50">
-                            <tr v-for="product in products" :key="product.id" :class="[selectedProducts.includes(product.id) && 'bg-gray-100']">
-                                <td class="relative border border-gray-300 py-4 px-4">
-                                    <div v-if="selectedProducts.includes(product.id)" class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div>
-                                    <div class="group grid size-4 grid-cols-1">
-                                        <input 
-                                            type="checkbox" 
-                                            class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" 
-                                            :value="product.id" 
-                                            v-model="selectedProducts" 
-                                        />
-                                        <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white" viewBox="0 0 14 14" fill="none">
-                                            <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </div>
-                                </td>
-                                <td class="border border-gray-300 py-4 px-4 text-sm font-normal" :class="selectedProducts.includes(product.id) ? 'text-indigo-600 font-medium' : ''">
-                                    {{ product.name }}
-                                </td>
-                                <td class="border border-gray-300 py-4 px-4 text-sm font-normal">{{ product.type }}</td>
-                                <td class="border border-gray-300 py-4 px-4 text-sm font-normal">{{ product.rate }}</td>
-                                <td class="border border-gray-300 py-4 px-4 text-sm font-normal">
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">{{ product.status }}</span>
-                                </td>
-                                <td class="border border-gray-300 py-4 px-4 text-sm font-normal">
-                                    <div class="flex space-x-2">
-                                        <button class="text-blue-600 hover:text-blue-800">Edit</button>
-                                        <button class="text-red-600 hover:text-red-800">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                        </TableHead>
+                        <TableBody>
+                            <template v-slot="{ data }">
+                                <TableRow 
+                                    v-for="product in data || products" 
+                                    :key="product.id" 
+                                    :className="selectedProducts.includes(product.id) ? 'bg-gray-100' : ''"
+                                >
+                                    <TableCell class="relative">
+                                        <div v-if="selectedProducts.includes(product.id)" class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div>
+                                        <div class="group grid size-4 grid-cols-1">
+                                            <input 
+                                                type="checkbox" 
+                                                class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" 
+                                                :value="product.id" 
+                                                v-model="selectedProducts" 
+                                            />
+                                            <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white" viewBox="0 0 14 14" fill="none">
+                                                <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell :className="selectedProducts.includes(product.id) ? 'text-indigo-600 font-medium' : ''">
+                                        {{ product.name }}
+                                    </TableCell>
+                                    <TableCell>{{ product.type }}</TableCell>
+                                    <TableCell>{{ product.rate }}</TableCell>
+                                    <TableCell>
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">{{ product.status }}</span>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div class="flex space-x-2">
+                                            <button class="text-blue-600 hover:text-blue-800">Edit</button>
+                                            <button class="text-red-600 hover:text-red-800">Delete</button>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            </template>
+                        </TableBody>
                     </TableComponents>
                 </div>
             </div>

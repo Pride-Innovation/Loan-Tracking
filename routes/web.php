@@ -32,4 +32,8 @@ Route::middleware([
     Route::get('/settings', function () {
         return Inertia::render('Settings/Index');
     })->name('settings');
+
+    Route::get('/reports', function () {
+        return Inertia::render('Reporting/Index');
+    })->name('reports');
 });

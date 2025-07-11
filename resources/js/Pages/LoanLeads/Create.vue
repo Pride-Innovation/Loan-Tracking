@@ -1,13 +1,12 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { ref, computed } from 'vue';
-import TableComponents, { 
-  TableHead, 
-  TableHeader, 
-  TableBody, 
-  TableRow, 
-  TableCell 
-} from '@/Components/TableComponents.vue';
+import TableComponents from '@/Components/TableComponents.vue';
+import TableHead from '@/Components/Table/TableHead.vue';
+import TableHeader from '@/Components/Table/TableHeader.vue';
+import TableBody from '@/Components/Table/TableBody.vue';
+import TableRow from '@/Components/Table/TableRow.vue';
+import TableCell from '@/Components/Table/TableCell.vue';
 import Modal from '@/Components/Modal.vue';
 
 // Sample leads data
@@ -17,6 +16,13 @@ const leads = [
     { id: 3, name: 'Lead Name 3', email: 'lead3@example.com', phone: '555-123-1003', status: 'Active' },
     { id: 4, name: 'Lead Name 4', email: 'lead4@example.com', phone: '555-123-1004', status: 'Active' },
     { id: 5, name: 'Lead Name 5', email: 'lead5@example.com', phone: '555-123-1005', status: 'Active' },
+    { id: 6, name: 'Lead Name 6', email: 'lead6@example.com', phone: '555-123-1006', status: 'Active' },
+    { id: 7, name: 'Lead Name 7', email: 'lead7@example.com', phone: '555-123-1007', status: 'Pending' },
+    { id: 8, name: 'Lead Name 8', email: 'lead8@example.com', phone: '555-123-1008', status: 'Inactive' },
+    { id: 9, name: 'Lead Name 9', email: 'lead9@example.com', phone: '555-123-1009', status: 'Active' },
+    { id: 10, name: 'Lead Name 10', email: 'lead10@example.com', phone: '555-123-1010', status: 'Active' },
+    { id: 11, name: 'Lead Name 11', email: 'lead11@example.com', phone: '555-123-1011', status: 'Pending' },
+    { id: 12, name: 'Lead Name 12', email: 'lead12@example.com', phone: '555-123-1012', status: 'Active' },
 ];
 
 // State management for selection
@@ -169,36 +175,45 @@ const bulkDeleteLeads = () => {
                         </div>
                     </div>
                     
-                    <!-- Table -->
-                    <div class="relative">
-                        <TableComponents>
-                            <thead class="bg-[#08796c] text-white">
-                                <tr>
-                                    <th class="border border-gray-300 py-3.5 px-4 text-sm font-semibold">
-                                        <div class="group grid size-4 grid-cols-1">
-                                            <input 
-                                                type="checkbox" 
-                                                class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" 
-                                                :checked="indeterminate || selectedLeads.length === leads.length" 
-                                                :indeterminate="indeterminate"
-                                                @change="toggleSelectAll" 
-                                            />
-                                            <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white" viewBox="0 0 14 14" fill="none">
-                                                <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                                <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                        </div>
-                                    </th>
-                                    <th class="border border-gray-300 py-3.5 px-4 text-sm font-semibold">Name</th>
-                                    <th class="border border-gray-300 py-3.5 px-4 text-sm font-semibold">Email</th>
-                                    <th class="border border-gray-300 py-3.5 px-4 text-sm font-semibold">Phone</th>
-                                    <th class="border border-gray-300 py-3.5 px-4 text-sm font-semibold">Status</th>
-                                    <th class="border border-gray-300 py-3.5 px-4 text-sm font-semibold">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="[&>*:nth-child(odd)]:bg-gray-50">
-                                <tr v-for="lead in leads" :key="lead.id" :class="[selectedLeads.includes(lead.id) && 'bg-gray-100']">
-                                    <td class="relative border border-gray-300 py-4 px-4">
+                    <!-- Table with pagination -->
+                    <TableComponents 
+                        :data="leads"
+                        :searchable="true"
+                        :paginate="true"
+                        :per-page-options="[5, 10, 25, 50]"
+                    >
+                        <TableHead>
+                            <tr>
+                                <TableHeader>
+                                    <div class="group grid size-4 grid-cols-1">
+                                        <input 
+                                            type="checkbox" 
+                                            class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" 
+                                            :checked="indeterminate || selectedLeads.length === leads.length" 
+                                            :indeterminate="indeterminate"
+                                            @change="toggleSelectAll" 
+                                        />
+                                        <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white" viewBox="0 0 14 14" fill="none">
+                                            <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                </TableHeader>
+                                <TableHeader>Name</TableHeader>
+                                <TableHeader>Email</TableHeader>
+                                <TableHeader>Phone</TableHeader>
+                                <TableHeader>Status</TableHeader>
+                                <TableHeader>Actions</TableHeader>
+                            </tr>
+                        </TableHead>
+                        <TableBody>
+                            <template v-slot="{ data }">
+                                <TableRow 
+                                    v-for="lead in data || leads" 
+                                    :key="lead.id" 
+                                    :className="selectedLeads.includes(lead.id) ? 'bg-gray-100' : ''"
+                                >
+                                    <TableCell class="relative">
                                         <div v-if="selectedLeads.includes(lead.id)" class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div>
                                         <div class="group grid size-4 grid-cols-1">
                                             <input 
@@ -211,38 +226,25 @@ const bulkDeleteLeads = () => {
                                                 <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </div>
-                                    </td>
-                                    <td 
-                                        class="border border-gray-300 py-4 px-4 text-sm font-normal"
-                                        :class="selectedLeads.includes(lead.id) ? 'text-indigo-600 font-medium' : ''"
-                                    >
+                                    </TableCell>
+                                    <TableCell :className="selectedLeads.includes(lead.id) ? 'text-indigo-600 font-medium' : ''">
                                         {{ lead.name }}
-                                    </td>
-                                    <td class="border border-gray-300 py-4 px-4 text-sm font-normal">{{ lead.email }}</td>
-                                    <td class="border border-gray-300 py-4 px-4 text-sm font-normal">{{ lead.phone }}</td>
-                                    <td class="border border-gray-300 py-4 px-4 text-sm font-normal">
+                                    </TableCell>
+                                    <TableCell>{{ lead.email }}</TableCell>
+                                    <TableCell>{{ lead.phone }}</TableCell>
+                                    <TableCell>
                                         <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">{{ lead.status }}</span>
-                                    </td>
-                                    <td class="border border-gray-300 py-4 px-4 text-sm font-normal">
+                                    </TableCell>
+                                    <TableCell>
                                         <div class="flex space-x-2">
-                                            <button 
-                                                @click="openEditModal(lead)" 
-                                                class="text-blue-600 hover:text-blue-800"
-                                            >
-                                                Edit
-                                            </button>
-                                            <button 
-                                                @click="openDeleteModal(lead)" 
-                                                class="text-red-600 hover:text-red-800"
-                                            >
-                                                Delete
-                                            </button>
+                                            <button @click="openEditModal(lead)" class="text-blue-600 hover:text-blue-800">Edit</button>
+                                            <button @click="openDeleteModal(lead)" class="text-red-600 hover:text-red-800">Delete</button>
                                         </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </TableComponents>
-                    </div>
+                                    </TableCell>
+                                </TableRow>
+                            </template>
+                        </TableBody>
+                    </TableComponents>
                 </div>
             </div>
         </div>
